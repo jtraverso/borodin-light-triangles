@@ -1,0 +1,28 @@
+name = "borodin_triangle"
+version = "0.1.0"
+defaultTargets = ["Borodin", "BorodinChallenge", "BorodinSolution"]
+requiresModuleSystem = true
+
+[leanOptions]
+relaxedAutoImplicit = false
+weak.linter.mathlibStandardSet = true
+
+[[require]]
+name = "mathlib"
+scope = "leanprover-community"
+rev = "v4.35.0-rc3"
+
+[[require]]
+name = "kotzig"
+git = "https://github.com/jtraverso/kotzig-light-edges"
+rev = "0e9f2a26985134c48841b5b1ce3220c3e257df28"
+
+[[lean_lib]]
+name = "Borodin"
+globs = ["Borodin.+"]
+
+[[lean_lib]]
+name = "BorodinChallenge"
+
+[[lean_lib]]
+name = "BorodinSolution"

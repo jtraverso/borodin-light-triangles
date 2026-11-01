@@ -1,0 +1,145 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/mathlib-initiative/formalization.yaml/main/schema/formalization.schema.json
+version: "v0.4"
+
+project:
+  name: "Borodin's light triangles in planar graphs of minimum degree five"
+  description: >-
+    A Lean 4 / Mathlib formalization of Borodin's theorem on light triangles, for finite simple
+    graphs with the combinatorial planarity (genus-zero rotation systems) of the registered entry
+    Kuratowski's theorem. The weight of a triangle is the sum of the degrees of its vertices. Every
+    plane map of a graph of minimum degree at least five has a face of length three of weight at
+    most 17 (light_face), and hence a planar graph of minimum degree at least five has a triangle of
+    weight at most 17 (light_triangle). Two statements. The proof is a discharging argument run on
+    the rotation system, with face charges in place of an edge-maximal counterexample; the local
+    analysis at 5-vertices (32768 configurations of neighbour degrees capped at eight and corner
+    types) is checked by decide in the kernel.
+  authors:
+    - "Juan Pablo Traverso Gianini"
+  license: "Apache-2.0"
+  responsible_maintainers:
+    - "Juan Pablo Traverso Gianini"
+
+classification:
+  arxiv: ["math.CO"]
+  msc2020: ["05C10", "05C07"]
+
+sources:
+  - title: "Solution of problems of Kotzig and Grünbaum concerning the isolation of cycles in planar graphs"
+    authors:
+      - "Oleg V. Borodin"
+    id: "doi:10.1007/BF01139613"
+    type: "paper"
+    location: >-
+      Mat. Zametki 46 (1989), no. 5, 9–12 (Russian); translated in Math. Notes 46 (1989) 835–837:
+      a plane graph of minimum degree five has a 3-face of weight at most 17.
+    relationship: "formalizes"
+    note: >-
+      The statement is formalized; the proof follows the discharging sketch of the source below,
+      adapted as described in the fidelity section. The formalization is by a different author.
+    license: "all rights reserved"
+    author_endorsement: "not-contacted"
+  - title: "An introduction to the discharging method via graph coloring"
+    authors:
+      - "Daniel W. Cranston"
+      - "Douglas B. West"
+    id: "arXiv:1306.4434"
+    type: "preprint"
+    location: >-
+      arXiv:1306.4434v2, Theorem 3.4 and its proof sketch (rules R1–R3); published in Discrete
+      Math. 340 (2017) 766–793, doi:10.1016/j.disc.2016.11.022.
+    relationship: "formalizes"
+    note: >-
+      The rules R1–R3 are kept (faces of length at least four give 1/2 to each corner, 7-vertices
+      give 1/3 to each 5-neighbour, vertices of degree at least eight give 1/4 through each incident
+      3-face to its 5-vertices, split equally). The edge-maximal counterexample is not used: a
+      7-vertex is instead paid 1/2 at each corner between two consecutive 5-neighbours, which is
+      never on a triangle. The case analysis at 5-vertices, left to the reader in the source, is
+      checked exhaustively. The sharpness example is not formalized. The article's authors were not
+      involved.
+    license: "unknown"
+    author_endorsement: "not-contacted"
+  - title: "Light subgraphs of graphs embedded in the plane—A survey"
+    authors:
+      - "Stanislav Jendrol'"
+      - "Heinz-Jürgen Voss"
+    id: "doi:10.1016/j.disc.2012.11.007"
+    type: "paper"
+    location: "Discrete Math. 313 (2013) 406–421"
+    relationship: "background"
+    note: "Context on light subgraphs, including the light-triangle theorem."
+    license: "all rights reserved"
+    author_endorsement: "n/a"
+
+related_formalizations:
+  - id: "jtraverso/kotzig-light-edges @ 0e9f2a2 (Palomar submission pending)"
+    relationship: "builds-on"
+    note: >-
+      Pinned dependency: the dart-level form of Euler's formula (Kotzig.sum_charge), face lengths,
+      sums over orbits and the counting lemmas of its discharging.
+  - id: "PALOMAR-2026-10-15-000018 (jtraverso/kuratowski @ 696ec89)"
+    relationship: "builds-on"
+    note: >-
+      Through the Kotzig package. The definitions of planarity (numClasses to IsPlanar) are copied
+      verbatim from its Challenge, and its library supplies plane maps, the face permutation and
+      Euler's formula.
+
+status:
+  scope: >-
+    The two statements are proved for every finite simple graph of minimum degree at least five
+    (on a nonempty vertex type). Known gaps relative to the sources: the sharpness example (the
+    dodecahedron with a vertex added in each face) and the refinements of Borodin–Ivanova are not
+    formalized; the Heffter–Edmonds–Ringel correspondence between genus-zero rotation systems and
+    sphere embeddings is not formalized (as in the Kuratowski entry).
+  sorry_count: 0
+  sorry_in_definitions: 0
+  axioms: []
+
+automation:
+  methods:
+    - method: "agent"
+      models: ["Claude Opus 5.5"]
+      framework: "Claude Code (Anthropic)"
+      tool_setup: >-
+        Adapted the discharging, wrote the whole Lean development (Borodin/), the
+        Challenge/Solution pair and the packaging under the author's direction. Checked with a local
+        build, a comparison of the elaborated Challenge and Solution statements and definitions
+        (pp.all), and #print axioms (Lean v4.35.0-rc3, Mathlib
+        c55e6e786f49471c72fbddbec5415808896aec1e).
+      cost:
+        wall_time: "a few hours"
+        spend_usd: "subscription-based"
+        hardware: "local machine"
+      prompting_notes: "Natural-language instructions in Spanish, directed by the author."
+  spend_usd: "not tracked"
+  notes: >-
+    The Lean development is AI-written under the author's direction and mechanically verified: no
+    sorry, axioms limited to propext, Classical.choice and Quot.sound, identical elaborated
+    statements and definitions in the Challenge and the Solution.
+
+fidelity:
+  divergences: >-
+    Graphs are Mathlib SimpleGraphs on a finite vertex type; degrees are Mathlib's degree. Planarity
+    is the existence of a genus-zero rotation system (the registered Kuratowski entry's definition)
+    rather than a topological embedding. A face of length three through a dart d is expressed by
+    (rot * dartSymm)^3 fixing d (for a simple graph of minimum degree at least two no face has length
+    one or two); its weight is the sum of the degrees of the tails of d, (rot * dartSymm) d and
+    (rot * dartSymm)^2 d. light_face is stated for every plane map, light_triangle for planar
+    graphs. The statements assume a nonempty vertex type.
+
+review:
+  status: "agent-reviewed"
+  reviewers:
+    - "Claude Opus 5.5 (AI agent in Claude Code, acting for the author)"
+  notes: >-
+    Agent review by Claude Opus 5.5, distinct from the mechanical verification: the agent checked
+    the statements and the definitions against the sources. No independent human review of the
+    formalization has been performed.
+
+alignment:
+  namespace: "BorodinTheorem"
+  statements:
+    - {source: "Borodin 1989; Cranston–West Theorem 3.4: a 3-face of weight ≤ 17", lean: "BorodinTheorem.light_face", module: "BorodinChallenge", status: "proved"}
+    - {source: "Corollary: a triangle of weight ≤ 17", lean: "BorodinTheorem.light_triangle", module: "BorodinChallenge", status: "proved"}
+
+acknowledgements: >-
+  Mathlib and the Lean community.
