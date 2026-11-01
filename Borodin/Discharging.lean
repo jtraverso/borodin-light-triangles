@@ -21,7 +21,7 @@ face of length three has weight (degree sum) at least `18`. Start from the charg
   has a `5`-vertex, split equally between the `5`-vertices of that face (`give`, `recv`).
 
 Faces stay nonnegative (`face_orbit_nonneg`), `5`-vertices receive at least `1`
-(`Borodin.one_le_sum_cv`), `7`-vertices have at most `2s - 7` corners between two consecutive
+(`Borodin.one_le_sum_cv`), `7`-vertices have at least `2s - 7` corners between two consecutive
 `5`-neighbours that are not on triangles, and vertices of degree at least eight lose at most
 a quarter of their degree (`vertex_nonneg`). This is Borodin's discharging (as sketched by
 Cranston and West), with face charges in place of the edge-maximal counterexample.
